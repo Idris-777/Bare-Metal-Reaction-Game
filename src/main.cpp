@@ -30,8 +30,6 @@ int main()
 
   initialize();
 
-  // sendLine("Reaction Time:");
-
   startMenu();
 
   pciInit();
@@ -42,9 +40,8 @@ int main()
 
   switchOption();
 
-  // randLed();
-
   buzzerInit();
+  
   buzzerOff();
 
   while (1)
@@ -150,16 +147,18 @@ ISR(PCINT1_vect)
 
 ISR(PCINT0_vect)
 {
-  if (!(PINB & (1 << BTN_FIRST))){
-  btnPressed = ButtonPressed::FirstBtnPressed;
-  time = round((TCNT1 * 64.0) / 1000.0);
+  if (!(PINB & (1 << BTN_FIRST)))
+  {
+    btnPressed = ButtonPressed::FirstBtnPressed;
+    time = round((TCNT1 * 64.0) / 1000.0);
   }
 }
 
 ISR(PCINT2_vect)
 {
-  if (!(PIND & (1 << BTN_THIRD))){
-  btnPressed = ButtonPressed::ThirdBtnPressed;
-  time = round((TCNT1 * 64.0) / 1000.0);
+  if (!(PIND & (1 << BTN_THIRD)))
+  {
+    btnPressed = ButtonPressed::ThirdBtnPressed;
+    time = round((TCNT1 * 64.0) / 1000.0);
   }
 }
