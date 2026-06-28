@@ -1,0 +1,5 @@
+
+
+void startMenu();
+
+void switchOption();
