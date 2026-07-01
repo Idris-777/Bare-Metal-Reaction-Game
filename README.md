@@ -38,6 +38,27 @@ The project was created to learn embedded systems by working directly with AVR p
 
 ---
 
+## Pin Assignment 
+
+## Hardware Connections
+
+| Component | ATmega328P Pin | Arduino Pin |
+|-----------|----------------|-------------|
+| LED 1 | PB0 | D8 |
+| LED 2 | PB1 | D9 |
+| LED 3 | PB2 | D10 |
+| Buzzer | PB3 | D11 |
+| LCD Enable (E) | PB4 | D12 |
+| Button 1 | PB5 | D13 |
+| LCD RS | PD6 | D6 |
+| LCD D7 | PD5 | D5 |
+| LCD D6 | PD4 | D4 |
+| LCD D5 | PD3 | D3 |
+| LCD D4 | PD2 | D2 |
+| Button 3 | PD7 | D7 |
+| Button 2 | PC0 | A0 |
+
+
 ## Software
 
 * PlatformIO
