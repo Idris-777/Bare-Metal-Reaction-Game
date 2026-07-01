@@ -4,7 +4,7 @@
 #include <pin_config.h>
 #include <lcd.h>
 #include <timer.h>
-#include <interrepts.h>
+#include <pcint.h>
 #include <buttons.h>
 #include <gameLogic.h>
 #include <buzzer.h>
@@ -12,14 +12,10 @@
 #include <eeprom.h>
 #include <project.h>
 
-volatile short currLed = 0b100;
-volatile short rnd = 0;
-volatile short count = 0;
-volatile int time = 0;
-volatile bool blinking = false;
-volatile char menuOptions[33] = {'P', 'L', 'A', 'Y', ' ', 'M', 'U', 'T', 'E', '/', 'U', 'N', 'M', 'U', 'T', 'E', ' ', 'A', 'B', 'O', 'U', 'T', ' ', 'H', 'I', 'G', 'H', 'S', 'C', 'O', 'R', 'E', ' '};
-volatile short currMenu = 0;
-volatile int highScore;
+
+
+
+
 GameStates gameState = GameStates::MENU;
 ButtonPressed btnPressed = ButtonPressed::Null;
 
@@ -41,7 +37,7 @@ int main()
   switchOption();
 
   buzzerInit();
-  
+
   buzzerOff();
 
   while (1)
@@ -104,12 +100,25 @@ int main()
         btnInGame(0b00000001);
         btnPressed = ButtonPressed::Null;
         break;
-
-        switchLed();
       }
 
       break;
     }
+
+    case ABOUT:
+      if (btnPressed = ButtonPressed::ThirdBtnPressed)
+      {
+        gameState = GameStates::MENU;
+
+        break;
+      }
+
+    case HIGHSCORE:
+      if (btnPressed = ButtonPressed::ThirdBtnPressed)
+      {
+        gameState = GameStates::MENU;
+        break;
+      }
 
     case (WON):
       wonMechanics();
@@ -141,7 +150,10 @@ ISR(PCINT1_vect)
   if (!(PINC & (1 << BTN_SECOND)))
   {
     btnPressed = ButtonPressed::SecondBtnPressed;
-    time = round((TCNT1 * 64.0) / 1000.0);
+    if (gameState = GameStates::PLAY)
+    {
+      time = calcReactTime();
+    }
   }
 }
 
@@ -150,7 +162,10 @@ ISR(PCINT0_vect)
   if (!(PINB & (1 << BTN_FIRST)))
   {
     btnPressed = ButtonPressed::FirstBtnPressed;
-    time = round((TCNT1 * 64.0) / 1000.0);
+    if (gameState = GameStates::PLAY)
+    {
+      time = calcReactTime();
+    }
   }
 }
 
@@ -159,6 +174,9 @@ ISR(PCINT2_vect)
   if (!(PIND & (1 << BTN_THIRD)))
   {
     btnPressed = ButtonPressed::ThirdBtnPressed;
-    time = round((TCNT1 * 64.0) / 1000.0);
+    if (gameState = GameStates::PLAY)
+    {
+      time = calcReactTime();
+    }
   }
 }

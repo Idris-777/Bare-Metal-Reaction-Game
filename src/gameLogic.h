@@ -10,3 +10,4 @@ void About();
 void highScoreMenue();
 void wonMechanics();
 void looseMechanics();
+int calcReactTime();

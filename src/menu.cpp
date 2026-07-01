@@ -1,5 +1,11 @@
 #include <lcd.h>
 #include <project.h>
+#include <eeprom.h>
+#include <gameLogic.h>
+
+volatile char menuOptions[33] = {'P', 'L', 'A', 'Y', ' ', 'M', 'U', 'T', 'E', '/', 'U', 'N', 'M', 'U', 'T', 'E', ' ', 'A', 'B', 'O', 'U', 'T', ' ', 'H', 'I', 'G', 'H', 'S', 'C', 'O', 'R', 'E', ' '};
+volatile short currMenu = 0;
+volatile int highScore;
 
 void startMenu()
 {
@@ -33,7 +39,6 @@ void switchOption()
         {
             if (menuOptions[i] == ' ')
             {
-                
             }
 
             else
@@ -46,7 +51,45 @@ void switchOption()
         {
             break;
         }
-
-       
     }
+}
+
+void play()
+{
+    randLed();
+
+    lcdInstruction(0x80);
+
+    sendLine("Reaction Time:");
+
+    printTime(0);
+}
+
+void About()
+{
+    lcdInstruction(0x80);
+
+    sendLine("A simple Game");
+
+    lcdInstruction(0xc0);
+
+    sendLine("by Idris-777");
+}
+
+void highScoreMenue()
+{
+    readHighScore();
+
+    lcdInstruction(0x01);
+    _delay_ms(2);
+
+    lcdInstruction(0x80);
+
+    sendLine("Highscore:");
+
+    lcdInstruction(0xC0);
+
+    sendNumber(highScore);
+
+    sendLine("ms");
 }
