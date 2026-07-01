@@ -59,7 +59,7 @@ void sendNibble(uint8_t nibble)
 
 void initialize()
 {
-        // SETTING PINS TO OUTPUT
+    // SETTING PINS TO OUTPUT
     DDRD |= (1 << D4) | (1 << D5) | (1 << D6) | (1 << D7);
 
     DDRD |= (1 << RS);
@@ -130,7 +130,8 @@ void sendLine(String text)
     }
 }
 
-void sendLineNew(char* text,int len){
+void sendLineNew(char *text, int len)
+{
 
     if (len > 32)
     {
@@ -167,25 +168,57 @@ void sendNumber(int num)
         len++;
     }
 
+    
+
     for (int i = len - 1; i >= 0; --i)
     {
         sendData('0' + digits[i]);
     }
 }
 
+void sendFloat(float num)
+{
+    int digits[10];
+    int len = 0;
+
+    if (num <= 10)
+    {
+        sendData('0');
+        return;
+    }
+
+    num *= 100;
+
+    while (num > 0)
+    {
+        digits[len] = static_cast<int>(num) % 10;
+        num /= 10;
+        len++;
+    }
+
+    for (int i = len - 1; i >= 0; --i)
+    {
+        sendData('0' + digits[i]);
+
+        if (i == 2)
+        {
+            sendData('.');
+        }
+    }
+}
+
 void printTime(int time)
 {
-  
-  lcdInstruction(0XC0);
 
-  
-  sendLine("        ");
+    lcdInstruction(0XC0);
 
- lcdInstruction(0XC0);
+    sendLine("        ");
 
-  sendNumber(time);
+    lcdInstruction(0XC0);
 
-  sendLine("ms");
+    sendNumber(time);
 
-  // Serial.println(time);
+    sendLine("ms");
+
+    // Serial.println(time);
 }

@@ -12,17 +12,13 @@
 #include <eeprom.h>
 #include <project.h>
 
-
-
-
-
 GameStates gameState = GameStates::MENU;
 ButtonPressed btnPressed = ButtonPressed::Null;
 
 int main()
 {
 
-  Serial.begin(9600);
+  
 
   initialize();
 
@@ -41,6 +37,9 @@ int main()
   buzzerOff();
 
   while (1)
+
+  //
+
   {
 
     switch (gameState)
@@ -51,6 +50,7 @@ int main()
       {
 
       case FirstBtnPressed:
+       
 
         nextOption();
         btnPressed = ButtonPressed::Null;
@@ -122,7 +122,7 @@ int main()
 
     case (WON):
       wonMechanics();
-      Serial.println("winning sound");
+      
       break;
 
     case LOST:
@@ -150,7 +150,7 @@ ISR(PCINT1_vect)
   if (!(PINC & (1 << BTN_SECOND)))
   {
     btnPressed = ButtonPressed::SecondBtnPressed;
-    if (gameState = GameStates::PLAY)
+    if (gameState == GameStates::PLAY)
     {
       time = calcReactTime();
     }
@@ -162,7 +162,7 @@ ISR(PCINT0_vect)
   if (!(PINB & (1 << BTN_FIRST)))
   {
     btnPressed = ButtonPressed::FirstBtnPressed;
-    if (gameState = GameStates::PLAY)
+    if (gameState == GameStates::PLAY)
     {
       time = calcReactTime();
     }
@@ -174,7 +174,7 @@ ISR(PCINT2_vect)
   if (!(PIND & (1 << BTN_THIRD)))
   {
     btnPressed = ButtonPressed::ThirdBtnPressed;
-    if (gameState = GameStates::PLAY)
+    if (gameState == GameStates::PLAY)
     {
       time = calcReactTime();
     }

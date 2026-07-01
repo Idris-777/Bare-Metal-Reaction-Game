@@ -17,7 +17,7 @@ void btnInGame(uint8_t btn_mask)
     if ((PORTB & 0b00000111) == btn_mask)
     {
 
-      PORTB |= (1 << 0) | (1 << 1) | (1 << 2);
+     PORTB |= (1 << LED_FIRST) | (1 << LED_SECOND) | (1 << LED_THIRD);
       printTime(time);
       gameState = GameStates::WON;
       winningSound();

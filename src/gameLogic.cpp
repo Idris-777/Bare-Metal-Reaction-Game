@@ -7,6 +7,12 @@
 #include <lcd.h>
 #include <eeprom.h>
 
+volatile short currLed = 0b100;
+volatile short rnd = 0;
+volatile short count = 0;
+volatile int time = 0;
+volatile bool blinking = false;
+
 void switchLed()
 {
 
@@ -49,45 +55,7 @@ void ledInit()
   DDRB |= (1 << LED_FIRST) | (1 << LED_SECOND) | (1 << LED_THIRD);
 }
 
-void play()
-{
-  randLed();
 
-  lcdInstruction(0x80);
-
-  sendLine("Reaction Time:");
-
-  printTime(0);
-}
-
-void About()
-{
-  lcdInstruction(0x80);
-
-  sendLine("A simple Game");
-
-  lcdInstruction(0xc0);
-
-  sendLine("by Idris-777");
-}
-
-void highScoreMenue()
-{
-  readHighScore();
-
-  lcdInstruction(0x01);
-  _delay_ms(2);
-
-  lcdInstruction(0x80);
-
-  sendLine("Highscore:");
-
-  lcdInstruction(0xC0);
-
-  sendNumber(highScore);
-
-  sendLine("ms");
-}
 
 void wonMechanics()
 {
@@ -102,11 +70,19 @@ void wonMechanics()
 void looseMechanics()
 {
 
-  PORTB &= ~((1 << 0) | (1 << 1) | (1 << 2));
+  PORTB &= ~((1 << LED_FIRST) | (1 << LED_SECOND) | (1 << LED_THIRD));
 
   if (btnPressed != ButtonPressed::Null)
   {
     gameState = GameStates::NEXTROUND;
     btnPressed = ButtonPressed::Null;
   }
+}
+
+int calcReactTime(){
+
+  return round((TCNT1 * 64.0) / 1000.0);
+
+  
+
 }
